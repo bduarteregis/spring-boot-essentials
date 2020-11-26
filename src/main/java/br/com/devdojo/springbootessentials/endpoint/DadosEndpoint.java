@@ -6,10 +6,7 @@ import br.com.devdojo.springbootessentials.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,4 +39,10 @@ public class DadosEndpoint {
             return new ResponseEntity<>(new CustomErrorType("Dado nao encontrado"), HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(Dados.dadosList.get(index),HttpStatus.OK);
         }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<?> save(@RequestBody Dados dados) {
+        Dados.dadosList.add(dados);
+        return new ResponseEntity<>(dados, HttpStatus.OK);
     }
+}
