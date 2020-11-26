@@ -23,14 +23,16 @@ public class DadosEndpoint {
         this.dateUtil = dateUtil;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    // @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<?> listAll() {
         System.out.println("---------- Registro de Acesso");
         System.out.println("---------- Horário: " + dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
         return new ResponseEntity<>(Dados.dadosList, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    // @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<?> getDadosById(@PathVariable("id") int id) {
         Dados dados = new Dados();
         dados.setId(id);
@@ -40,9 +42,25 @@ public class DadosEndpoint {
         return new ResponseEntity<>(Dados.dadosList.get(index),HttpStatus.OK);
         }
 
-    @RequestMapping(method = RequestMethod.POST)
+    // @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<?> save(@RequestBody Dados dados) {
         Dados.dadosList.add(dados);
         return new ResponseEntity<>(dados, HttpStatus.OK);
+    }
+
+    // @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
+    public ResponseEntity<?> delete(@RequestBody Dados dados) {
+        Dados.dadosList.remove(dados);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody Dados dados) {
+        Dados.dadosList.remove(dados);
+        Dados.dadosList.add(dados);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
